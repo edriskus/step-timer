@@ -1,25 +1,28 @@
 import React, { useEffect } from "react";
-import { Box, Typography, Fab, Grid, LinearProgress } from "@material-ui/core";
-import { Step } from "../../types/Timer";
 import {
-  SkipNext,
-  SkipPrevious,
-  Pause,
-  Flag,
-  PlayArrow
-} from "@material-ui/icons";
+  Box,
+  Typography,
+  Grid,
+  LinearProgress,
+  Button
+} from "@material-ui/core";
+import { Step } from "../../types/Timer";
+import { SkipNext, SkipPrevious, Pause, PlayArrow } from "@material-ui/icons";
 import { useTimer } from "../../utils/Timer";
+import { getQuantifier } from "../../utils/Grammar";
 
 interface Props {
   step: Step;
   onNext(): void;
   hasNext: boolean;
+  stepIndex: number;
   onPrevious(): void;
   hasPrevious: boolean;
 }
 
 export default function StepInfo({
   step,
+  stepIndex,
   hasNext,
   onNext,
   onPrevious,
@@ -41,18 +44,30 @@ export default function StepInfo({
       <Typography
         variant="h2"
         align="center"
+        color="primary"
         gutterBottom={!step.duration || !!running}
       >
-        {step.duration ? (
-          running ? (
-            timeLeft
-          ) : (
-            <Pause fontSize="large" />
-          )
-        ) : (
-          <Flag fontSize="large" />
-        )}
+        {stepIndex + 1}
+        <sup>{getQuantifier(stepIndex + 1)}</sup>
       </Typography>
+      <Typography variant="body1" align="center" gutterBottom={true}>
+        {step.title}
+      </Typography>
+      {!!step.description && (
+        <Typography variant="body2" align="center" gutterBottom={true}>
+          {step.description}
+        </Typography>
+      )}
+      {!!step.duration && !!step.duration && (
+        <Typography
+          variant="h2"
+          align="center"
+          color="secondary"
+          gutterBottom={!step.duration || !!running}
+        >
+          {running ? timeLeft : <Pause fontSize="large" />}
+        </Typography>
+      )}
       {!!step.duration && !running && (
         <Typography
           variant="subtitle1"
@@ -60,14 +75,6 @@ export default function StepInfo({
           gutterBottom={true}
         >
           {timeLeft}
-        </Typography>
-      )}
-      <Typography variant="h5" align="center" gutterBottom={true}>
-        {step.title}
-      </Typography>
-      {!!step.description && (
-        <Typography variant="body2" align="center" gutterBottom={true}>
-          {step.description}
         </Typography>
       )}
       {!!step.duration && (
@@ -82,25 +89,37 @@ export default function StepInfo({
       <Box paddingTop={4} paddingBottom={2}>
         <Grid container={true} spacing={2} justify="center">
           <Grid item={true}>
-            <Fab color="secondary" disabled={!hasPrevious} onClick={onPrevious}>
-              <SkipPrevious />
-            </Fab>
+            <Button
+              variant="contained"
+              disabled={!hasPrevious}
+              onClick={onPrevious}
+            >
+              <SkipPrevious color="primary" />
+            </Button>
           </Grid>
           <Grid item={true}>
             {running ? (
-              <Fab color="default" onClick={onPause} disabled={!step.duration}>
-                <Pause />
-              </Fab>
+              <Button
+                variant="contained"
+                onClick={onPause}
+                disabled={!step.duration}
+              >
+                <Pause color="action" />
+              </Button>
             ) : (
-              <Fab color="default" onClick={onStart} disabled={!step.duration}>
-                <PlayArrow />
-              </Fab>
+              <Button
+                variant="contained"
+                onClick={onStart}
+                disabled={!step.duration}
+              >
+                <PlayArrow color="action" />
+              </Button>
             )}
           </Grid>
           <Grid item={true}>
-            <Fab color="primary" disabled={!hasNext} onClick={onNext}>
-              <SkipNext />
-            </Fab>
+            <Button variant="contained" disabled={!hasNext} onClick={onNext}>
+              <SkipNext color="secondary" />
+            </Button>
           </Grid>
         </Grid>
       </Box>

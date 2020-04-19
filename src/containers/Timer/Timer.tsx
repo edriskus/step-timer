@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { Container, Typography } from "@material-ui/core";
+import { Container, Typography, Card, CardContent } from "@material-ui/core";
 import { timers } from "../../data/Timers";
 import { useParams, Redirect } from "react-router-dom";
 import TimeStepper from "../../components/TimeStepper/TimeStepper";
@@ -13,15 +13,19 @@ export default function Timer() {
   } else {
     return (
       <Container maxWidth="md">
-        <Typography
-          variant="h5"
-          align="center"
-          color="secondary"
-          gutterBottom={true}
-        >
-          {timer.title}
-        </Typography>
-        <TimeStepper timer={timer} />
+        <Card>
+          <CardContent>
+            <Typography
+              variant="h6"
+              align="left"
+              color="secondary"
+              gutterBottom={true}
+            >
+              {timer.title}
+            </Typography>
+            <TimeStepper timer={timer} />
+          </CardContent>
+        </Card>
       </Container>
     );
   }

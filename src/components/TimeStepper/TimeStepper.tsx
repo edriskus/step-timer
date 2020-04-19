@@ -44,10 +44,17 @@ export default function TimeStepper({ timer }: Props) {
         color="primary"
         value={(step / (timer.steps.length - 1)) * 100}
       />
-      {!!previousStep && <StepGlimpse step={previousStep} />}
+      {!!previousStep && (
+        <StepGlimpse
+          color="primary"
+          prefix="Previous step"
+          step={previousStep}
+        />
+      )}
       {!!currentStep && (
         <StepInfo
           key={step}
+          stepIndex={step}
           step={currentStep}
           onNext={handleNext}
           hasNext={!!nextStep}
@@ -55,7 +62,9 @@ export default function TimeStepper({ timer }: Props) {
           hasPrevious={!!previousStep}
         />
       )}
-      {!!nextStep && <StepGlimpse step={nextStep} />}
+      {!!nextStep && (
+        <StepGlimpse color="secondary" prefix="Next step" step={nextStep} />
+      )}
     </Box>
   );
 }

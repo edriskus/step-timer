@@ -7,7 +7,7 @@ export default function Header() {
   const { push } = useHistory();
   const goHome = useCallback(() => push("/"), [push]);
   return (
-    <AppBar position="sticky" color="transparent">
+    <AppBar position="sticky" color="transparent" elevation={0}>
       <Toolbar>
         <Box
           onClick={goHome}
@@ -23,9 +23,11 @@ export default function Header() {
             flexDirection="row"
             alignItems="center"
           >
-            <Timer color="primary" />
+            <Timer color="secondary" />
           </Box>
-          <Typography variant="overline">Step Timer</Typography>
+          <Typography variant="overline" color="secondary">
+            Step Timer
+          </Typography>
         </Box>
       </Toolbar>
     </AppBar>
